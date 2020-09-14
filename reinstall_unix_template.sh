@@ -125,14 +125,6 @@ case $choice in
         )| passwd
         ## end.
 
-        ## Make SSH banner
-        wget http://194.54.88.145/install/bash_banner -O /root/.bash_banner
-        if [ -f /root/.bash_banner ]; then
-        echo -e "\t\t\t\t\t\t\t\t Hosting.ua \n \t CPU Threads: `getconf _NPROCESSORS_ONLN`   RAM: `free -m | grep -oP '\d+' | head -n 1` Mb   OS:${os} `uname -m`\n" >> /root/.bash_banner
-        echo -e "## bash banner\nif [ -f /root/.bash_banner ]; then\n\tcat /root/.bash_banner;\nfi" >> /root/.bashrc
-        fi
-        ## end.
-
         ## Set custom history
         echo 'export HISTTIMEFORMAT="[%d/%m/%y %T]"' >> /etc/profile
         ## end
@@ -226,7 +218,7 @@ case $choice in
         echo -e "     addresses: [$ip/32]" >> $netplan
         echo -e "     gateway4: ${gatewayIp}" >> $netplan
         echo -e "     nameservers:" >> $netplan
-        echo -e "       addresses: [194.54.88.52,8.8.8.8]" >> $netplan
+        echo -e "       addresses: [1.1.1.1,8.8.8.8]" >> $netplan
         echo -e "     routes:" >> $netplan
         echo -e "       - to: ${gatewayIp}/32" >> $netplan
         echo -e "         via: 0.0.0.0" >> $netplan
@@ -244,10 +236,10 @@ case $choice in
         echo "address $ip" >> $net
         echo "netmask ${maskIp}" >> $net
         echo "gateway ${gatewayIp}" >> $net
-        echo "dns-nameservers 194.54.88.52 8.8.8.8" >> $net
+        echo "dns-nameservers 1.1.1.1 8.8.8.8" >> $net
         echo "${host}.ds.hosting.ua" > /etc/hostname
         rm -f $resconf
-        echo "nameserver 194.54.88.52" >> $resconf
+        echo "nameserver 1.1.1.1" >> $resconf
         echo "nameserver 8.8.8.8" >> $resconf
         fi
         ## end
@@ -269,14 +261,6 @@ case $choice in
                echo "${serverPass}"
         )| passwd
         ## end
-
-        ## Make SSH banner
-        wget http://194.54.88.145/install/bash_banner -O /root/.bash_banner
-        if [ -f /root/.bash_banner ]; then
-        echo -e "\t\t\t\t\t\t\t\t Hosting.ua \n \t CPU Threads: `getconf _NPROCESSORS_ONLN`   RAM: `free -m | grep -oP '\d+' | head -n 1` Mb   OS:${os} `uname -m`\n" >> /root/.bash_banner
-        echo -e "## bash banner\nif [ -f /root/.bash_banner ]; then\n\tcat /root/.bash_banner;\nfi" >> /root/.bashrc
-        fi
-        ## end.
 
         ## Set custom history
         echo 'export HISTTIMEFORMAT="[%d/%m/%y %T]"' >> /etc/profile
@@ -312,11 +296,11 @@ case $choice in
         ## Configure network interface and resolv.conf
         ethX=`ifconfig | head -1 | cut -d ':' -f 1`
         printf "## Network ##\n" >> /etc/rc.conf
-        printf "hostname=\"${host}.ds.hosting.ua\"\n" >> /etc/rc.conf
+        printf "hostname=\"${host}.localhost\"\n" >> /etc/rc.conf
         printf "ifconfig_${ethX}=\"inet ${ip} netmask ${maskIp}\"\n" >> /etc/rc.conf
         printf "defaultrouter=\"${gatewayIp}\"\n" >> /etc/rc.conf
         printf "## DNS Conf ##\n" >> $resconf
-        printf "nameserver 194.54.88.52\n" >> $resconf
+        printf "nameserver 1.1.1.1\n" >> $resconf
         printf "nameserver 8.8.8.8\n" >> $resconf
         ## End
 
