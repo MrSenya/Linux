@@ -5,7 +5,7 @@ block_ip (){
 for i in {1..24};
 do
 echo "---Block on VH${i}---";
-ssh vh${i} csf -td  ${ip} 998600;
+ssh vh${i} csf -td  ${ip} 86400;
 done
 exit 0
 }
